@@ -1,9 +1,8 @@
-// set the dimensions and margins of the graph
+// Set the dimensions and margins of the graph and the svg object
 var margin = {top: 10, right: 30, bottom: 30, left: 60},
     width = 460 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
 var svg = d3.select("#missingArt0")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -11,16 +10,16 @@ var svg = d3.select("#missingArt0")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// Create a DSV parser for semicolon-separated values
+// Semicolon-separated values
 var dsv = d3.dsvFormat(";");
 
-// Read the data with semicolon as delimiter
+// Read the data
 d3.text("https://raw.githubusercontent.com/JuliusUnibo/missingArt/main/missingArt0.csv", function(text) {
   var data = dsv.parse(text);
   console.log(text);
 
 
-// Parsen meine Daten in numerische Werte, um sicher zu gehen
+// Only numeric values
 
 d3.text("http://localhost/missingArt/missingArt0.csv", function(text) {
   var data = dsv.parse(text, function(d) {
@@ -30,11 +29,11 @@ d3.text("http://localhost/missingArt/missingArt0.csv", function(text) {
       datum_alt: +d.datum_alt,
     };
   });
-  console.log(data); // Überprüfe die konvertierten Daten
+  console.log(data); // Check that again
 });
 
 
-  // Add X axis
+  // Initialize X axis
   var x = d3.scaleLinear()
     .domain([0, 4000])
     .range([0, width]);
@@ -43,7 +42,7 @@ d3.text("http://localhost/missingArt/missingArt0.csv", function(text) {
     .call(d3.axisBottom(x))
     .style("display", "none");
 
-  // Add Y axis
+  // Initialize Y axis
   var y = d3.scaleLinear()
     .domain([1250, 1933])
     .range([height, 0]);
@@ -83,7 +82,6 @@ svg.append('g')
       .style("opacity", 0.5);
 
 // Annotations
-// Feste y-Position für die Annotations
 
 var firstY = 1933;
 var secondY = 1400;
@@ -92,14 +90,14 @@ var thirdY = 1933;
 var fourthY = 1825;
 var secondApex = 1879;
 
-// Dreieck-Symbol hinzufügen
+// Red cross on top of y-axis
 svg.append("path")
   .attr("d", d3.symbol().type(d3.symbolCross).size(100))
   .attr("transform", "translate(" + (width / 2) + "," + y(firstY) + ")rotate(-45)")
   .style("fill", "red");
 
   
-// Linie zur Textbox hinzufügen
+// Line that leads to first text box
 svg.append("line")
   .attr("x1", width / 2 - 165)
   .attr("y1", y(firstY))
@@ -109,7 +107,7 @@ svg.append("line")
   .style("stroke-width", 1);
 
 
-// Textbox für gerade Linie hinzufügen
+// First text box
 svg.append("rect")
   .attr("x", width / 2 - 200)
   .attr("y", y(firstY) - 10)
@@ -119,7 +117,7 @@ svg.append("rect")
   .style("stroke", "black")
   .style("stroke-width", 1);
 
-// Text in der Textbox hinzufügen
+// Text in first text box
 svg.append("text")
   .attr("x", width / 2 - 195)
   .attr("y", y(firstY) + 5)
@@ -127,20 +125,18 @@ svg.append("text")
   .style("font-size", "12px")
   .style("fill", "black");
 
-// Datenpunkte für die gebogene Linie erstellen
+// Coordinates for first curved line
 const lineData1 = [
   { x: width / 2 + 30, y: firstY },
-  { x: width / 2 + 100 + 10, y: (firstY + secondY) / 2 }, // Kontrollpunkt für stärkere Biegung
+  { x: width / 2 + 100 + 10, y: (firstY + secondY) / 2 }, // This point changes curviness
   { x: width / 2 + 30, y: secondY }
 ];
 
-// Gebogene Linie erstellen mit d3.curveBundle und einem höheren beta-Wert
 const lineGenerator1 = d3.line()
   .x(d => d.x)
   .y(d => y(d.y))
-  .curve(d3.curveBundle.beta(1)); // Beta-Wert auf 1 gesetzt für stärkere Biegung
+  .curve(d3.curveBundle.beta(1));
 
-// Gebogene Linie zum SVG hinzufügen
 svg.append('path')
   .datum(lineData1)
   .attr('d', lineGenerator1)
@@ -148,7 +144,7 @@ svg.append('path')
   .attr('stroke-width', 1)
   .attr('fill', 'none');
   
-// Gerade Linie zur zweiten Textbox hinzufügen
+// Line for second text box for first curved line
 svg.append("line")
   .attr("x1", width / 2 + 100)
   .attr("y1", y(firstApex))
@@ -157,7 +153,7 @@ svg.append("line")
   .style("stroke", "white")
   .style("stroke-width", 1);
 
-// Textbox für erste gebogene Linie hinzufügen
+// Second textbox for first curved line 
 svg.append("rect")
   .attr("x", width / 2 + 100)
   .attr("y", y(firstApex) - 10)
@@ -167,7 +163,7 @@ svg.append("rect")
   .style("stroke", "black")
   .style("stroke-width", 1);
 
-// Text in der zweiten Textbox hinzufügen
+// Text for second text box (first curved line)
 svg.append("text")
   .attr("x", width / 2 + 105)
   .attr("y", y(firstApex) + 5)
@@ -175,20 +171,18 @@ svg.append("text")
   .style("font-size", "12px")
   .style("fill", "black");
 
-// Datenpunkte für zweite gebogene Linie erstellen
+// Coordinates for second curved line
 const lineData2 = [
   { x: width / 2 + 10, y: thirdY },
   { x: width / 2 + 20, y: (thirdY + fourthY) / 2 }, // Kontrollpunkt für stärkere Biegung
   { x: width / 2 + 10, y: fourthY }
 ];
 
-// Zweite gebogene Linie erstellen mit d3.curveBundle und einem höheren beta-Wert
 const lineGenerator2 = d3.line()
   .x(d => d.x)
   .y(d => y(d.y))
   .curve(d3.curveBundle.beta(1)); // Beta-Wert auf 1 gesetzt für stärkere Biegung
 
-// Zweite gebogene Linie zum SVG hinzufügen
 svg.append('path')
   .datum(lineData2)
   .attr('d', lineGenerator2)
@@ -196,7 +190,7 @@ svg.append('path')
   .attr('stroke-width', 1)
   .attr('fill', 'none');
 
-// Gerade Linie zur dritten Textbox hinzufügen
+// Line for third text box
 svg.append("line")
   .attr("x1", width / 2 + 18)
   .attr("y1", y(secondApex))
@@ -205,7 +199,7 @@ svg.append("line")
   .style("stroke", "white")
   .style("stroke-width", 1);
 
-// Textbox für zweite gebogene Linie hinzufügen
+// Text box for second curved line
 svg.append("rect")
   .attr("x", width / 2 + 80)
   .attr("y", y(secondApex) - 10)
@@ -215,7 +209,7 @@ svg.append("rect")
   .style("stroke", "black")
   .style("stroke-width", 1);
 
-// Text in der dritten Textbox hinzufügen
+// Text for third text box
 svg.append("text")
   .attr("x", width / 2 + 85)
   .attr("y", y(secondApex) + 5)
