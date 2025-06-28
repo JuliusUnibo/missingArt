@@ -1,6 +1,6 @@
 # missingArt
 
-A web project showing data of lost art because of Nazi persecutions. Created for the class “Information Visualization" by Marilena Daquino at the University of Bologna in the academic year 2024/2025.
+A university web project by Julius Reinmuth showing data of lost art because of Nazi persecutions. Created for the class “Information Visualization" by Marilena Daquino at the University of Bologna in the academic year 2024/2025.
 
 
 The original data was retrieved from the Lost Art-Datenbank, PURL, (access on 28th of June 2025) as part of a web project for the course “Information Visualization (1) (LM)” by Marilena Daquino at the University of Bologna in the academic year 2024/2025.
