@@ -1,9 +1,8 @@
-// set the dimensions and margins of the graph
+// Set the dimensions and margins of the graph and the svg object
 var margin = {top: 10, right: 30, bottom: 140, left: 70},
     width = 510 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
 var svg = d3.select("#missingArt2")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -12,24 +11,24 @@ var svg = d3.select("#missingArt2")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-// Create a DSV parser for semicolon-separated values
+// Semicolon-separated data
 var dsv = d3.dsvFormat(";");
 
-// Read the data with semicolon as delimiter
+// Read the data
 d3.text("https://raw.githubusercontent.com/JuliusUnibo/missingArt/main/missingArt2.csv", function(text) {
   var data = dsv.parse(text);
 
-// sort data
+// Sort data
 data.sort(function(b, a) {
   return a.anzahl_artworks - b.anzahl_artworks;
 });
 
 
-// limit to top 10 values
+// Limit to top 25 values
 data = data.slice(0, 25);
 
 
-  // X axis
+  // Initialize X axis
   var x = d3.scaleBand()
     .range([ 0, width ])
     .domain(data.map(function(d) { return d.namen_neu; }))
@@ -42,12 +41,12 @@ data = data.slice(0, 25);
       .style("text-anchor", "end")
       .style("fill", "white"); // Set the color of the x-axis labels to white
 
-  // Set the color of the x-axis to white
+  // Set the color of the x-axis
   svg.selectAll(".domain, .tick line")
     .attr("stroke", "white")
     .attr("stroke-width", "1"); // Make the axis line thinner
 
-  // Add Y axis
+  // Initialize Y axis
   var y = d3.scaleLinear()
     .domain([0, 45])
     .range([ height, 0]);
@@ -56,7 +55,7 @@ data = data.slice(0, 25);
     .selectAll("text")
       .style("fill", "white"); // Set the color of the y-axis labels to white
 
-  // Set the color of the y-axis to white
+  // Set the color of the y-axis
   svg.selectAll(".domain, .tick line")
     .attr("stroke", "white")
     .attr("stroke-width", "1"); // Make the axis line thinner
