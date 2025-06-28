@@ -1,16 +1,16 @@
-// Create a DSV parser for semicolon-separated values
+// Semicolon-separated values
 var dsv = d3.dsvFormat(";");
 
-// Read the data with semicolon as delimiter
-d3.text("http://localhost/missingArt/missingArt4.csv", function(text) {
+// Read data
+d3.text("https://raw.githubusercontent.com/JuliusUnibo/missingArt/main/missingArt4.csv", function(text) {
   var data = dsv.parse(text);
 
-  // sort data
+  // Sort data
   data.sort(function(b, a) {
     return a.anzahl_artworks - b.anzahl_artworks;
   });
 
-  // limit to top 6 values
+  // Limit data to top 6 values
   data = data.slice(0, 6);
 
   // Assign values to HTML elements
