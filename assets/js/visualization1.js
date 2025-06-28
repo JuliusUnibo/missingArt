@@ -1,30 +1,30 @@
-// The svg
+// Set the dimensions and margins of the graph and the svg object
 var svg = d3.select("#missingArt1"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 console.log("SVG selected");
 
-// Map and projection
+// Map
 var projection = d3.geoMercator()
     .scale(290)
     .translate([width / 2, height / 2 * 1.3])
     .center([10, 45]);
 console.log("Projection set");
 
-// A path generator
+// Path generator
 var path = d3.geoPath()
     .projection(projection);
 console.log("DSV parser created");
 
-// Create a DSV parser for semicolon-separated values
+// Semicolon-separated data
 var dsv = d3.dsvFormat(";");
 
-// Read the data with semicolon as delimiter
+// Read the data
 d3.text("https://raw.githubusercontent.com/JuliusUnibo/missingArt/main/missingArt1.csv", function (text) {
     var data = dsv.parse(text);
     console.log("CSV Data:", data);
 
-    // Filter out rows with null values
+    // Filter out rows with value "null"
     data = data.filter(function (row) {
         return Object.values(row).every(function (value) {
             return value !== null;
@@ -32,7 +32,7 @@ d3.text("https://raw.githubusercontent.com/JuliusUnibo/missingArt/main/missingAr
     });
     console.log("Filtered Data:", data);
 
-    // Load world shape AND list of connection
+    // Load world shapes and list of connection
     d3.queue()
         .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")  // World shape
         .await(ready);
@@ -41,7 +41,6 @@ d3.text("https://raw.githubusercontent.com/JuliusUnibo/missingArt/main/missingAr
         if (error) throw error;
         console.log("GeoJSON Data:", dataGeo);
 
-        // Reformat the list of links. Note that columns in csv file are called long0, long1, lat0, lat1, etc.
         var links = [];
         data.forEach(function (row) {
             var coordinates = [];
