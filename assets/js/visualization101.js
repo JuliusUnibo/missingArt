@@ -20,7 +20,7 @@ console.log("DSV parser created");
 var dsv = d3.dsvFormat(";");
 
 // Read the data with semicolon as delimiter
-d3.text("http://localhost/missingArt/missingArt1.csv", function (text) {
+d3.text("https://raw.githubusercontent.com/JuliusUnibo/missingArt/main/missingArt1.csv", function (text) {
     var data = dsv.parse(text);
     console.log("CSV Data:", data);
 
