@@ -41,7 +41,6 @@ d3.text("https://raw.githubusercontent.com/JuliusUnibo/missingArt/main/missingAr
         if (error) throw error;
         console.log("GeoJSON Data:", dataGeo);
 
-        // Reformat the list of links. Note that columns in csv file are called long0, long1, lat0, lat1, etc.
         var links = [];
         data.forEach(function (row) {
             var coordinates = [];
