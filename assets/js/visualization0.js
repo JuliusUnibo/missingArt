@@ -15,7 +15,7 @@ var svg = d3.select("#missingArt0")
 var dsv = d3.dsvFormat(";");
 
 // Read the data with semicolon as delimiter
-d3.text("https://github.com/JuliusUnibo/missingArt/blob/main/missingArt0.csv", function(text) {
+d3.text("https://raw.githubusercontent.com/JuliusUnibo/missingArt/main/missingArt0.csv", function(text) {
   var data = dsv.parse(text);
   console.log(text);
 
